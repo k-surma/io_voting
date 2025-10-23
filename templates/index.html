@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Minimalna strona</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+	<main class="container">
+		<h1>Minimalna strona</h1>
+		<p>Prosty formularz kontaktowy działający na Flask + Gmail SMTP.</p>
+
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				<ul class="flash-list">
+					{% for category, message in messages %}
+						<li class="flash {{ category }}">{{ message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+
+		<form method="post" action="/" class="contact-form">
+			<label>
+				<span>Imię</span>
+				<input type="text" name="name" value="{{ name|default('') }}" required>
+			</label>
+			<label>
+				<span>Email</span>
+				<input type="email" name="email" value="{{ email|default('') }}" required>
+			</label>
+			<label>
+				<span>Wiadomość</span>
+				<textarea name="message" rows="6" required>{{ message|default('') }}</textarea>
+			</label>
+			<button type="submit">Wyślij</button>
+		</form>
+	</main>
+</body>
+</html>
