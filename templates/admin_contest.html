@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Konkurs #{{ contest.id }}{% endblock %}
+{% block content %}
+	<h1>Konkurs: {{ contest.name }}</h1>
+	<p class="muted">{{ contest.description }}</p>
+	<h2>Dodaj projekt</h2>
+	<form method="post" action="{{ url_for('admin_project_new', contest_id=contest.id) }}" class="contact-form" enctype="multipart/form-data">
+		<label>
+			<span>Tytuł</span>
+			<input type="text" name="title" required>
+		</label>
+		<label>
+			<span>Autor</span>
+			<input type="text" name="author" required>
+		</label>
+		<label>
+			<span>Opis</span>
+			<textarea name="description" rows="4"></textarea>
+		</label>
+		<label>
+			<span>Link (opcjonalnie)</span>
+			<input type="url" name="link" placeholder="https://...">
+		</label>
+		<label>
+			<span>Awatar (obraz)</span>
+			<input type="file" name="avatar" accept="image/*">
+		</label>
+		<label>
+			<span>Załącznik (PDF)</span>
+			<input type="file" name="attachment" accept="application/pdf">
+		</label>
+		<button type="submit">Dodaj</button>
+	</form>
+
+	<h2>Projekty</h2>
+	<ul class="project-list">
+		{% for p in projects %}
+		<li class="project">
+			<div class="project-main">
+				{% if p.avatar_path %}
+					<img src="{{ url_for('static', filename=p.avatar_path) }}" alt="" style="max-width:120px;max-height:120px;object-fit:cover;margin-right:8px;">
+				{% endif %}
+				<strong>{{ p.title }}</strong>
+				<div class="muted">Autor: {{ p.author or '—' }}</div>
+				{% if p.description %}<div class="muted">{{ p.description }}</div>{% endif %}
+				{% if p.link %}<a class="link" href="{{ p.link }}" target="_blank" rel="noopener">Link</a>{% endif %}
+				{% if p.attachment_path %} • <a class="link" href="{{ url_for('static', filename=p.attachment_path) }}" target="_blank" rel="noopener">PDF</a>{% endif %}
+			</div>
+			<div class="project-side">
+				<span class="badge">Głosy: {{ p.votes_count }}</span>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

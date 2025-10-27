@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Konkursy{% endblock %}
+{% block content %}
+	<h1>Lista konkursów</h1>
+	{% if contests|length == 0 %}
+		<p>Brak aktywnych konkursów.</p>
+	{% endif %}
+	{% for c in contests %}
+		<section class="contest">
+			<h2>{{ c.name }}</h2>
+			<p class="muted">{{ c.description }}</p>
+			<div class="projects">
+				{% set projects = projects_by_contest.get(c.id, []) %}
+				{% if projects|length == 0 %}
+					<p>Brak projektów w tym konkursie.</p>
+				{% else %}
+					<ul class="project-list">
+						{% for p in projects %}
+							<li class="project">
+								<div class="project-main">
+									{% if p.avatar_path %}
+										<img src="{{ url_for('static', filename=p.avatar_path) }}" alt="" style="width:56px;height:56px;object-fit:cover;border-radius:4px;margin-right:8px;vertical-align:middle;">
+									{% endif %}
+									<h3 style="display:inline-block;vertical-align:middle;margin:0 8px 0 0;">{{ p.title }}</h3>
+									<div class="muted">Autor: {{ p.author or '—' }}</div>
+									{% if p.description %}<p class="muted">{{ p.description }}</p>{% endif %}
+									{% if p.link %}<a class="link" href="{{ p.link }}" target="_blank" rel="noopener">Link</a>{% endif %}
+									{% if p.attachment_path %} • <a class="link" href="{{ url_for('static', filename=p.attachment_path) }}" target="_blank" rel="noopener">PDF</a>{% endif %}
+								</div>
+								<div class="project-side">
+									<span class="badge">Głosy: {{ p.votes_count }}</span>
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<p><a class="button" href="{{ url_for('contest_page', contest_id=c.id) }}">Przejdź do konkursu</a></p>
+		</section>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Konkurs: {{ contest.name }}{% endblock %}
+{% block content %}
+	<h1>{{ contest.name }}</h1>
+	{% if contest.description %}<p class="muted">{{ contest.description }}</p>{% endif %}
+
+	<form class="vote-form" method="post" action="{{ url_for('contest_vote', contest_id=contest.id) }}">
+		<fieldset>
+			<legend>Wybierz projekt</legend>
+			<ul class="project-list">
+				{% for p in projects %}
+					<li class="project">
+						<label class="project-radio">
+							<input type="radio" name="project_id" value="{{ p.id }}" required>
+							<div>
+								<div style="display:flex;align-items:center;gap:8px;">
+									{% if p.avatar_path %}
+										<img src="{{ url_for('static', filename=p.avatar_path) }}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:4px;">
+									{% endif %}
+									<div>
+										<strong>{{ p.title }}</strong>
+										<div class="muted">Autor: {{ p.author or '—' }}</div>
+									</div>
+								</div>
+								{% if p.description %}<div class="muted">{{ p.description }}</div>{% endif %}
+								{% if p.link %}<a class="link" href="{{ p.link }}" target="_blank" rel="noopener">Link</a>{% endif %}
+								{% if p.attachment_path %} • <a class="link" href="{{ url_for('static', filename=p.attachment_path) }}" target="_blank" rel="noopener">PDF</a>{% endif %}
+							</div>
+						</label>
+						<span class="badge">Głosy: {{ p.votes_count }}</span>
+					</li>
+				{% endfor %}
+			</ul>
+		</fieldset>
+		<label>
+			<span>Twój e‑mail</span>
+			<input type="email" name="email" required>
+		</label>
+		<button type="submit">Zagłosuj</button>
+	</form>
+{% endblock %}

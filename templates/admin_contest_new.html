@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Nowy konkurs{% endblock %}
+{% block content %}
+	<h1>Nowy konkurs</h1>
+	<form method="post" action="{{ url_for('admin_contest_new_post') }}" class="contact-form">
+		<label>
+			<span>Nazwa</span>
+			<input type="text" name="name" required>
+		</label>
+		<label>
+			<span>Opis</span>
+			<textarea name="description" rows="4"></textarea>
+		</label>
+		<label>
+			<input type="checkbox" name="is_active" checked>
+			<span>Aktywny</span>
+		</label>
+		<button type="submit">Utwórz</button>
+	</form>
+{% endblock %}

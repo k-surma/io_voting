@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Kontakt{% endblock %}
+{% block content %}
+	<h1>Kontakt</h1>
+	<form method="post" action="{{ url_for('contact_post') }}" class="contact-form">
+		<label>
+			<span>Imię</span>
+			<input type="text" name="name" value="{{ name|default('') }}" required>
+		</label>
+		<label>
+			<span>Email</span>
+			<input type="email" name="email" value="{{ email|default('') }}" required>
+		</label>
+		<label>
+			<span>Wiadomość</span>
+			<textarea name="message" rows="6" required>{{ message|default('') }}</textarea>
+		</label>
+		<button type="submit">Wyślij</button>
+	</form>
+{% endblock %}

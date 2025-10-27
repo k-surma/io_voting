@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}Strona{% endblock %}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+	<header class="topbar">
+		<nav class="nav">
+			<div class="nav-left">
+				<a href="{{ url_for('home') }}" class="brand">Konkursy</a>
+			</div>
+			<div class="nav-right">
+				<a href="{{ url_for('contact_get') }}" class="nav-link">Kontakt</a>
+				{% if is_admin %}
+					<a href="{{ url_for('admin_dashboard') }}" class="nav-link">Panel</a>
+					<a href="{{ url_for('admin_logout') }}" class="nav-link">Wyloguj</a>
+				{% else %}
+					<a href="{{ url_for('admin_login_get') }}" class="nav-link">Zaloguj</a>
+				{% endif %}
+			</div>
+		</nav>
+	</header>
+
+	<main class="container">
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				<ul class="flash-list">
+					{% for category, message in messages %}
+						<li class="flash {{ category }}">{{ message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+
+		{% block content %}{% endblock %}
+	</main>
+</body>
+</html>

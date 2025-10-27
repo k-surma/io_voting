@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Logowanie admina{% endblock %}
+{% block content %}
+	<h1>Logowanie admina</h1>
+	<form method="post" action="{{ url_for('admin_login_post') }}" class="contact-form">
+		<label>
+			<span>Login</span>
+			<input type="text" name="username" required>
+		</label>
+		<label>
+			<span>Hasło</span>
+			<input type="password" name="password" required>
+		</label>
+		<button type="submit">Zaloguj</button>
+	</form>
+{% endblock %}

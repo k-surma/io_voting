@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Potwierdź głos{% endblock %}
+{% block content %}
+	<h1>Potwierdź głos</h1>
+	<form method="post" class="verify-form">
+		<label>
+			<span>E‑mail</span>
+			<input type="email" name="email" value="{{ email }}" required>
+		</label>
+		<label>
+			<span>Kod</span>
+			<input type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" placeholder="000000" required>
+		</label>
+		<button type="submit">Potwierdź</button>
+	</form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Panel admina{% endblock %}
+{% block content %}
+	<h1>Panel admina</h1>
+	<p><a class="button" href="{{ url_for('admin_contest_new_get') }}">Utwórz konkurs</a></p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nazwa</th>
+				<th>Aktywny</th>
+				<th>Akcje</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for c in contests %}
+			<tr>
+				<td>{{ c.id }}</td>
+				<td>{{ c.name }}</td>
+				<td>{{ 1 if c.is_active else 0 }}</td>
+				<td>
+					<a href="{{ url_for('admin_contest_detail', contest_id=c.id) }}">Szczegóły</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
